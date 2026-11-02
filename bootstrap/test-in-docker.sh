@@ -14,6 +14,7 @@ docker run --rm -t -v "$REPO:/src:ro" "$IMAGE" bash -euo pipefail -c '
   echo "test ALL=(ALL) NOPASSWD:ALL" >/etc/sudoers.d/test
   cp -r /src /home/test/dotfiles && chown -R test:test /home/test
   su - test -c "
+    export DEBIAN_FRONTEND=noninteractive
     set -e
     ~/dotfiles/install.sh
     ~/dotfiles/bootstrap/install-packages.sh --only apt

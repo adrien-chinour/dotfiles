@@ -32,8 +32,8 @@ do_apt() {
   done < <(pkg_list apt.txt)
   (( ${#missing[@]} )) && echo "Ignorés (aucun candidat, dépôt absent ?) : ${missing[*]}"
   (( ${#pkgs[@]} )) || return 0
-  run sudo apt-get update
-  run sudo apt-get install -y --no-install-recommends "${pkgs[@]}"
+  run sudo DEBIAN_FRONTEND=noninteractive apt-get update
+  run sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends "${pkgs[@]}"
   if command -v tldr >/dev/null 2>&1; then run tldr --update; fi
 }
 
