@@ -1,0 +1,13 @@
+# ~/.inputrc — readline (bash, et tout programme qui l'utilise)
+$include /etc/inputrc
+
+# Complétion insensible à la casse, affichée dès la première ambiguïté
+set completion-ignore-case on
+set show-all-if-ambiguous on
+set colored-stats on
+set colored-completion-prefix on
+set mark-symlinked-directories on
+
+# Flèches haut/bas : recherche dans l'historique à partir du préfixe tapé
+"\e[A": history-search-backward
+"\e[B": history-search-forward

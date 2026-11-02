@@ -1,0 +1,2 @@
+# Paquets npm globaux (installés sous la version Node par défaut de nvm)
+corepack

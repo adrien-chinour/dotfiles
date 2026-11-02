@@ -1,0 +1,9 @@
+# ~/.config/git/delta — inclus par ~/.gitconfig quand delta est installé (apt git-delta)
+[core]
+	pager = delta
+[interactive]
+	diffFilter = delta --color-only
+[delta]
+	navigate = true
+	line-numbers = true
+	side-by-side = false

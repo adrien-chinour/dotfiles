@@ -1,0 +1,5 @@
+# Snaps — "nom [options]" par ligne
+code --classic
+firefox
+thunderbird
+spotify

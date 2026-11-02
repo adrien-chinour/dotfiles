@@ -1,0 +1,52 @@
+# Paquets apt — une ligne par paquet, # pour les commentaires.
+# Les paquets sans candidat (dépôt tiers non configuré) sont ignorés avec un avertissement.
+
+# Shell et outils de base
+bash-completion
+starship
+eza
+tealdeer
+bat
+git-delta
+fonts-powerline
+shellcheck
+tree
+jq
+htop
+xclip
+wl-clipboard
+curl
+wget
+ca-certificates
+
+# Développement
+build-essential
+git
+gh
+make
+
+# Dépôts tiers à configurer avant (voir README) : docker, hashicorp, google-cloud, symfony
+docker-ce
+docker-ce-cli
+docker-buildx-plugin
+docker-compose-plugin
+terraform
+google-cloud-cli
+symfony-cli
+
+# PHP
+php
+php-curl
+php-intl
+php-mbstring
+php-pgsql
+php-sqlite3
+php-xdebug
+php-imagick
+composer
+
+# Candidats non installés aujourd'hui, à décommenter au besoin
+# fzf
+# ripgrep
+# fd-find
+# zoxide

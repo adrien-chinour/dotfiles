@@ -1,0 +1,29 @@
+# ~/.gitconfig — géré par ~/code/dotfiles (lien symbolique).
+# L'identité par machine ou par employeur va dans ~/.gitconfig.local (non versionné).
+[user]
+	name = Adrien Chinour
+	email = github@chinour.fr
+[init]
+	defaultBranch = main
+[push]
+	autoSetupRemote = true
+[fetch]
+	prune = true
+[pull]
+	rebase = false
+[merge]
+	conflictstyle = zdiff3
+[diff]
+	colorMoved = default
+[rerere]
+	enabled = true
+[alias]
+	st = status
+	co = checkout
+	sw = switch
+	lg = log --graph --decorate --oneline --all
+	last = log -1 HEAD --stat
+[include]
+	# delta (pager de diff) : lié par install.sh uniquement si delta est installé
+	path = ~/.config/git/delta
+	path = ~/.gitconfig.local

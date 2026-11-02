@@ -1,0 +1,6 @@
+# ~/.config/git/ignore — exclusions globales (toutes machines, tous dépôts)
+.idea/
+.vscode/
+.DS_Store
+*.swp
+*~

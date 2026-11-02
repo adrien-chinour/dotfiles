@@ -1,0 +1,28 @@
+# shellcheck shell=bash
+# ~/.bashrc — géré par ~/code/dotfiles (lien symbolique). Ne pas éditer ici.
+# Lu par les shells bash non-login (terminal GNOME, ddterm, VS Code…).
+# Les shells de login passent par ~/.profile, qui charge ensuite ce fichier.
+
+# Dépôt des dotfiles, résolu depuis le lien symbolique
+DOTFILES_DIR="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/.." && pwd)"
+export DOTFILES_DIR
+
+# Environnement (PATH, chaînes d'outils) : toujours, même en non-interactif
+# (tâches VS Code, `ssh hôte commande`, cron…)
+# shellcheck source=rc.d/00-env.sh
+. "$DOTFILES_DIR/bash/rc.d/00-env.sh"
+# shellcheck source=rc.d/10-tools.sh
+. "$DOTFILES_DIR/bash/rc.d/10-tools.sh"
+
+# Le reste ne concerne que les shells interactifs
+case $- in *i*) ;; *) return ;; esac
+
+for _rc in "$DOTFILES_DIR"/bash/rc.d/[2-9]*.sh; do
+  # shellcheck source=/dev/null
+  [ -r "$_rc" ] && . "$_rc"
+done
+unset _rc
+
+# Spécifique à la machine, non versionné (alias locaux, variables privées…)
+# shellcheck source=/dev/null
+[ -r "$HOME/.bashrc.local" ] && . "$HOME/.bashrc.local"

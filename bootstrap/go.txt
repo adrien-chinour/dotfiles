@@ -1,0 +1,6 @@
+# Outils Go — un chemin `go install` par ligne
+# ctop : go.mod avec replace, go install impossible → bootstrap/github-releases.txt
+github.com/rakyll/hey@latest
+golang.org/x/tools/cmd/goimports@latest
+# cup (outil perso, module local, pas installable à distance) :
+#   cd ~/code/adrien-chinour/cup && go install .

@@ -1,0 +1,4 @@
+# Binaires téléchargés depuis les releases GitHub (via `gh release download`).
+# Format : owner/repo|motif de l'asset|nom du binaire dans ~/.local/bin
+# Pour les outils absents d'apt et non installables par `go install`.
+bcicen/ctop|*linux-amd64|ctop

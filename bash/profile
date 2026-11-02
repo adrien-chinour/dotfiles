@@ -1,0 +1,16 @@
+# shellcheck shell=sh
+# ~/.profile — géré par ~/code/dotfiles (lien symbolique). Ne pas éditer ici.
+# Lu par les shells de login (tty, ssh, session graphique). Doit rester POSIX sh :
+# pas de bashisme ici ni dans rc.d/00-env.sh et rc.d/10-tools.sh.
+
+DOTFILES_DIR="$(dirname "$(dirname "$(readlink -f "$HOME/.profile")")")"
+export DOTFILES_DIR
+
+. "$DOTFILES_DIR/bash/rc.d/00-env.sh"
+. "$DOTFILES_DIR/bash/rc.d/10-tools.sh"
+
+# bash de login interactif : charger aussi ~/.bashrc (comportement Ubuntu)
+if [ -n "$BASH_VERSION" ] && [ -f "$HOME/.bashrc" ]; then
+  # shellcheck source=/dev/null
+  . "$HOME/.bashrc"
+fi
