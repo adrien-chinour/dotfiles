@@ -43,7 +43,4 @@ fi
 # Flutter / Dart
 path_append "$HOME/code/tools/flutter/bin"
 
-# cup (github.com/adrien-chinour/cup) : racine des projets docker compose
-export CUPDIR="$HOME/code"
-
 export PATH

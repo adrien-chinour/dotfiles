@@ -33,6 +33,17 @@ git-prune-gone() {
   git fetch -p && git branch -vv | awk '/: (gone|disparue)\]/ {print $1}' | xargs -r git branch -D
 }
 
+# cup PROJET [args…] : docker compose sur un projet de ~/code (ex : cup blog up -d)
+cup() {
+  docker compose --project-directory ~/code/"$1" "${@:2}"
+}
+_cup() {
+  if (( COMP_CWORD == 1 )); then
+    mapfile -t COMPREPLY < <(cd ~/code 2>/dev/null && compgen -d -- "${COMP_WORDS[1]}")
+  fi
+}
+complete -F _cup cup
+
 # mkcd DIR : crée le répertoire et s'y place
 mkcd() {
   mkdir -p "$1" && cd "$1" || return

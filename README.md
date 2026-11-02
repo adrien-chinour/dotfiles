@@ -39,10 +39,10 @@ bash/
   inputrc           readline : complétion insensible à la casse, flèches = recherche historique
   rc.d/
     00-env.sh       POSIX : path_prepend/path_append, XDG, EDITOR=nano, ~/.local/bin, bin/ du dépôt
-    10-tools.sh     POSIX : go, cargo, deno, bun, pnpm, nvm (chargement paresseux), flutter, CUPDIR
+    10-tools.sh     POSIX : go, cargo, deno, bun, pnpm, nvm (chargement paresseux), flutter
     20-shell.sh     historique (100 000 lignes, horodaté, partagé entre terminaux), shopt, less, couleurs
     30-aliases.sh   eza/ls, rm → corbeille, docker compose, git…
-    40-functions.sh own, setclip/getclip, gitignore, git-prune-gone, mkcd
+    40-functions.sh own, setclip/getclip, gitignore, git-prune-gone, cup, mkcd
     50-completion.sh bash-completion + cache des complétions générées (pnpm, deno, composer, symfony)
     90-prompt.sh    starship, repli sur le PS1 Ubuntu
 git/                gitconfig, ignore global, config delta
@@ -76,7 +76,6 @@ par les shells de login, dont `sh`). Les autres fichiers sont du bash.
 - **rust** : rustup (`--no-modify-path`, le PATH est géré par `10-tools.sh`).
 - **go** : `go install` de chaque ligne de `go.txt` (ctop, hey, goimports).
   Go lui-même s'installe depuis l'archive officielle dans `/usr/local/go`.
-  `cup` (outil perso) : `cd ~/code/adrien-chinour/cup && go install .`
 - **github** : `github-releases.txt`, binaires téléchargés avec `gh release download`
   dans `~/.local/bin` (ctop, dont le go.mod empêche `go install`).
 
@@ -104,6 +103,7 @@ demandent une police powerline (`fonts-powerline` est dans `apt.txt`).
 | `setclip`, `getclip` (`pbcopy`, `pbpaste`) | presse-papiers (wl-clipboard ou xclip) |
 | `gitignore node python` | génère un `.gitignore` |
 | `git-prune-gone` | supprime les branches locales dont la distante a disparu |
+| `cup projet [args]` | `docker compose` sur `~/code/projet` (ex : `cup blog up -d`), complète les noms de projets |
 | `mkcd dir` | `mkdir -p` puis `cd` |
 | `completion-refresh` | régénère le cache des complétions |
 
