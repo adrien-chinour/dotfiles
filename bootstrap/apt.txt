@@ -8,7 +8,6 @@ eza
 tealdeer
 bat
 git-delta
-fonts-powerline
 shellcheck
 tree
 jq

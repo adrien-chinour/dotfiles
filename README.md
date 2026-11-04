@@ -81,12 +81,18 @@ par les shells de login, dont `sh`). Les autres fichiers sont du bash.
 
 ## Prompt (Starship)
 
-`starship.toml` reproduit l'ancien thème powerline de liquidprompt :
-utilisateur toujours affiché, hôte seulement en ssh, chemin tronqué, branche et
-état git, jobs en arrière-plan, batterie sous 75 %, code de retour en erreur.
-Pas d'équivalent pour la charge CPU et la température. Les séparateurs
-demandent une police powerline (`fonts-powerline` est dans `apt.txt`).
-`starship explain` détaille le prompt courant.
+`starship.toml` donne un prompt sobre, en ASCII, sans fond de couleur ni
+police spéciale :
+
+```
+adrien:~/code/dotfiles (main *?) &1 -42% 1 $
+```
+
+Utilisateur toujours affiché, hôte seulement en ssh, chemin tronqué à trois
+niveaux, branche et état git entre parenthèses (`*` modifié, `+` indexé, `?`
+non suivi, `>n`/`<n` avance/retard), jobs en arrière-plan (`&n`), batterie
+sous 75 %, code de retour en erreur. `starship explain` détaille le prompt
+courant.
 
 ## Alias et fonctions
 
