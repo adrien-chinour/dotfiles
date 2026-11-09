@@ -17,7 +17,10 @@ docker run --rm -t -v "$REPO:/src:ro" "$IMAGE" bash -euo pipefail -c '
     export DEBIAN_FRONTEND=noninteractive
     set -e
     ~/dotfiles/install.sh
-    ~/dotfiles/bootstrap/install-packages.sh --only apt
-    bash -lic \"type ll; starship --version; eza --version; tldr --version; echo PATH=\\\$PATH\"
+    ~/dotfiles/bootstrap/install-packages.sh --only apt,node
+    bash -lic \"type ll; starship --version; eza --version; tldr --version; vp --version; node -v; command -v node pnpm; echo PATH=\\\$PATH\"
+    bash -lc \"node -v\"
+    cmp ~/dotfiles/bash/bashrc /src/bash/bashrc && cmp ~/dotfiles/bash/profile /src/bash/profile
+    test -L ~/.bashrc && test -L ~/.profile && echo \"shell intact\"
   "
 '

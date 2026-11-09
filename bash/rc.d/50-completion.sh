@@ -30,7 +30,6 @@ _cache_completion composer composer completion bash
 _cache_completion symfony symfony self:completion bash
 command -v terraform >/dev/null 2>&1 && complete -C terraform terraform
 command -v aws_completer >/dev/null 2>&1 && complete -C aws_completer aws
-# nvm : sa complétion est chargée par la fonction paresseuse nvm() (10-tools.sh)
 
 completion-refresh() {
   command rm -rf "$XDG_CACHE_HOME/bash-completion"
