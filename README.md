@@ -8,7 +8,7 @@ ici, c'est éditer la config en place.
 
 ```bash
 git clone https://github.com/adrien-chinour/dotfiles ~/code/dotfiles
-~/code/dotfiles/bootstrap/install-packages.sh   # paquets : apt, snap, nvm/node, rustup, go install
+~/code/dotfiles/bootstrap/install-packages.sh   # paquets : apt, snap, Vite+/node, rustup, go install
 ~/code/dotfiles/install.sh                      # liens symboliques vers $HOME
 exec bash -l
 ```
@@ -39,7 +39,7 @@ bash/
   inputrc           readline : complétion insensible à la casse, flèches = recherche historique
   rc.d/
     00-env.sh       POSIX : path_prepend/path_append, XDG, EDITOR=nano, ~/.local/bin, bin/ du dépôt
-    10-tools.sh     POSIX : go, cargo, deno, bun, pnpm, nvm (chargement paresseux), flutter
+    10-tools.sh     POSIX : go, cargo, deno, bun, Vite+ (node, npm, pnpm), flutter
     20-shell.sh     historique (100 000 lignes, horodaté, partagé entre terminaux), shopt, less, couleurs
     30-aliases.sh   eza/ls, rm → corbeille, docker compose, git…
     40-functions.sh own, setclip/getclip, gitignore, git-prune-gone, cup, mkcd
@@ -49,7 +49,7 @@ git/                gitconfig, ignore global, config delta
 starship/           starship.toml
 gh/, htop/          configs copiées telles quelles
 bin/                scripts texte ajoutés au PATH (jamais de binaire dans git)
-bootstrap/          install-packages.sh + listes apt.txt, snap.txt, go.txt, npm-global.txt, github-releases.txt
+bootstrap/          install-packages.sh + listes apt.txt, snap.txt, go.txt, github-releases.txt
 ```
 
 Règle : `profile`, `00-env.sh` et `10-tools.sh` restent POSIX sh (ils sont lus
@@ -72,7 +72,12 @@ par les shells de login, dont `sh`). Les autres fichiers sont du bash.
   [Google Cloud CLI](https://cloud.google.com/sdk/docs/install),
   [Symfony CLI](https://symfony.com/download).
 - **snap** : `snap.txt` (`code --classic`, firefox, thunderbird, spotify).
-- **node** : nvm (version épinglée dans le script), Node 24 par défaut, puis `npm-global.txt`.
+- **node** : [Vite+](https://viteplus.dev) (`vp`, version épinglée dans le script) dans
+  `$XDG_DATA_HOME/vite-plus`, puis `vp env default 24`. `bin/` (en tête du PATH) contient `vp`, `vpx` et le
+  shim `node`, `fallback-bin/` (en fin de PATH) les shims `npm`, `npx`, `pnpm` : chacun lance la version déclarée par le projet courant (`devEngines`,
+  `.node-version`, `engines`, `.nvmrc`), sinon Node 24. Les lignes que l'installeur ajoute à `~/.bashrc` et
+  `~/.profile` sont retirées aussitôt (le PATH est dans `10-tools.sh`) ; seul `vp env use`, qui change de
+  version pour la session, n'est donc pas disponible.
 - **rust** : rustup (`--no-modify-path`, le PATH est géré par `10-tools.sh`).
 - **go** : `go install` de chaque ligne de `go.txt` (ctop, hey, goimports).
   Go lui-même s'installe depuis l'archive officielle dans `/usr/local/go`.
@@ -124,9 +129,12 @@ make test      # installation à blanc dans un conteneur ubuntu:26.04
 ## Pièges connus
 
 - `~/.bashrc` étant un lien vers le dépôt, les installeurs qui « ajoutent une
-  ligne à ~/.bashrc » (nvm, pnpm, bun, rustup…) modifient `bash/bashrc` :
+  ligne à ~/.bashrc » (pnpm, bun, rustup, opencode…) modifient `bash/bashrc` :
   ça apparaît dans `git diff`. Le PATH de ces outils est déjà géré par
   `10-tools.sh`, il suffit de rejeter la modification.
+- Passage de nvm à Vite+ : `~/.nvm` n'est plus au PATH mais reste sur le disque ; le supprimer à la main
+  (`rm -rf ~/.nvm`) une fois `node -v` vérifié dans un nouveau terminal. Idem pour l'ancien pnpm global
+  (`~/.local/share/pnpm/pnpm`), son magasin `~/.local/share/pnpm/store` restant utilisé.
 - `htop` réécrit `htoprc` à travers le lien quand on change un réglage dans
   l'interface : commiter ou rejeter selon le cas.
 - `rm` envoie à la corbeille GNOME ; sur un serveur sans `gio`, utiliser `command rm`.

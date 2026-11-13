@@ -8,7 +8,7 @@ set -euo pipefail
 HERE="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")" && pwd)"
 SECTIONS="apt,snap,node,rust,go,github"
 DRY_RUN=0
-NVM_VERSION=v0.40.3
+VITE_PLUS_VERSION=1.5.0
 NODE_VERSION=24
 
 usage() { sed -n '2,5s/^# \{0,1\}//p' "$0"; exit "${1:-0}"; }
@@ -52,21 +52,31 @@ do_snap() {
 }
 
 do_node() {
-  log "node (nvm $NVM_VERSION, node $NODE_VERSION)"
-  export NVM_DIR="$HOME/.nvm"
-  if [[ ! -s "$NVM_DIR/nvm.sh" ]]; then
-    # PROFILE=/dev/null : l'installeur n'écrit pas dans ~/.bashrc (géré par rc.d/10-tools.sh)
-    run bash -c "curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/$NVM_VERSION/install.sh | PROFILE=/dev/null bash"
+  log "node (Vite+ $VITE_PLUS_VERSION, node $NODE_VERSION par défaut)"
+  local bin="${XDG_DATA_HOME:-$HOME/.local/share}/vite-plus/bin" current="" rc
+  [[ -x "$bin/vp" ]] && current="$("$bin/vp" --version 2>/dev/null | sed -n '1s/^vp v//p')"
+  if [[ "$current" == "$VITE_PLUS_VERSION" ]]; then
+    echo "  ok      vp $current"
+  else
+    # L'installeur ajoute `. ~/.config/vite-plus/env` à ~/.bashrc et ~/.profile, qui sont des liens
+    # vers ce dépôt, et aucune option ne l'en empêche. Le PATH est géré par rc.d/10-tools.sh :
+    # on remet le contenu d'avant. Seul `vp env use` (version pour la session) n'est pas chargé.
+    local saved
+    saved="$(mktemp -d)"
+    for rc in .bashrc .profile; do
+      [[ -f "$HOME/$rc" ]] && cp "$HOME/$rc" "$saved/$rc"
+    done
+    run bash -c "curl -fsSL https://vite.plus | VP_VERSION=$VITE_PLUS_VERSION VP_NODE_MANAGER=yes bash"
+    for rc in .bashrc .profile; do
+      if [[ -f "$saved/$rc" ]] && ! cmp -s "$saved/$rc" "$HOME/$rc"; then
+        cat "$saved/$rc" >"$HOME/$rc"
+        echo "  remis   ~/$rc (ligne ajoutée par l'installeur Vite+ retirée)"
+      fi
+    done
+    rm -rf "$saved"
   fi
   (( DRY_RUN )) && return 0
-  # shellcheck source=/dev/null
-  . "$NVM_DIR/nvm.sh"
-  nvm install "$NODE_VERSION"
-  nvm alias default "$NODE_VERSION"
-  local pkg
-  while read -r pkg; do
-    npm ls -g "$pkg" >/dev/null 2>&1 || npm install -g "$pkg"
-  done < <(pkg_list npm-global.txt)
+  "$bin/vp" env default "$NODE_VERSION"
 }
 
 do_rust() {
