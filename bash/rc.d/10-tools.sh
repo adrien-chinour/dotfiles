@@ -14,11 +14,13 @@ path_prepend "$HOME/.deno/bin"
 export BUN_INSTALL="$HOME/.bun"
 path_prepend "$BUN_INSTALL/bin"
 
-# Node et pnpm via Vite+ (`vp`) : le binaire et les shims node/npm/pnpm sont dans
-# un seul dossier, mis au PATH en tête ; chaque shim lance la version déclarée par
-# le projet courant (.node-version, devEngines, engines, .nvmrc), sinon celle de
-# `vp env default`. Aucun script à sourcer : marche aussi en shell non interactif.
+# Node et pnpm via Vite+ (`vp`) : `bin` (vp, vpx, node) en tête du PATH,
+# `fallback-bin` (npm, npx, pnpm, bun) en fin, comme ~/.config/vite-plus/env.
+# Chaque shim lance la version déclarée par le projet courant (.node-version,
+# devEngines, engines, .nvmrc), sinon celle de `vp env default`. Aucun script à
+# sourcer : marche aussi en shell non interactif.
 path_prepend "$XDG_DATA_HOME/vite-plus/bin"
+path_append "$XDG_DATA_HOME/vite-plus/fallback-bin"
 
 # Flutter / Dart
 path_append "$HOME/code/tools/flutter/bin"

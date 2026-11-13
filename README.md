@@ -73,8 +73,8 @@ par les shells de login, dont `sh`). Les autres fichiers sont du bash.
   [Symfony CLI](https://symfony.com/download).
 - **snap** : `snap.txt` (`code --classic`, firefox, thunderbird, spotify).
 - **node** : [Vite+](https://viteplus.dev) (`vp`, version épinglée dans le script) dans
-  `$XDG_DATA_HOME/vite-plus/bin`, puis `vp env default 24`. Ce dossier contient `vp` et les shims `node`,
-  `npm`, `npx`, `pnpm` : chacun lance la version déclarée par le projet courant (`devEngines`,
+  `$XDG_DATA_HOME/vite-plus`, puis `vp env default 24`. `bin/` (en tête du PATH) contient `vp`, `vpx` et le
+  shim `node`, `fallback-bin/` (en fin de PATH) les shims `npm`, `npx`, `pnpm` : chacun lance la version déclarée par le projet courant (`devEngines`,
   `.node-version`, `engines`, `.nvmrc`), sinon Node 24. Les lignes que l'installeur ajoute à `~/.bashrc` et
   `~/.profile` sont retirées aussitôt (le PATH est dans `10-tools.sh`) ; seul `vp env use`, qui change de
   version pour la session, n'est donc pas disponible.

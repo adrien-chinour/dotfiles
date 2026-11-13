@@ -18,8 +18,8 @@ docker run --rm -t -v "$REPO:/src:ro" "$IMAGE" bash -euo pipefail -c '
     set -e
     ~/dotfiles/install.sh
     ~/dotfiles/bootstrap/install-packages.sh --only apt,node
-    bash -lic \"type ll; starship --version; eza --version; tldr --version; vp --version; node -v; command -v node pnpm; echo PATH=\\\$PATH\"
-    bash -lc \"node -v\"
+    bash -lic \"type ll; starship --version; eza --version; tldr --version; vp --version && node -v && pnpm -v && npm -v && command -v node pnpm npm && echo PATH=\\\$PATH\"
+    bash -lc \"node -v && pnpm -v\"
     cmp ~/dotfiles/bash/bashrc /src/bash/bashrc && cmp ~/dotfiles/bash/profile /src/bash/profile
     test -L ~/.bashrc && test -L ~/.profile && echo \"shell intact\"
   "
